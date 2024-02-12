@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FullSDPrac.Shared.Domain
 {
-    public class Task : BaseDomainModel
+    public class TaskItem : BaseDomainModel
     {
         public int Id { get; set; }
         public string? TaskName { get; set; }
@@ -15,7 +15,6 @@ namespace FullSDPrac.Shared.Domain
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public virtual User? Users { get; set; }
-        public virtual List<Manager>? Managers { get; set; }
 
 
     }

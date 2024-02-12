@@ -14,7 +14,7 @@ namespace FullSDPrac.Server.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
-        public DbSet<Shared.Domain.Task> Tasks { get; set; } //its supposed do just be DbSet<Task> Tasks {get;set;} but there is another thing call tasked as well... this is just to specific a single 1
+        public DbSet<Shared.Domain.TaskItem> TaskItems { get; set; } //its supposed do just be DbSet<Task> Tasks {get;set;} but there is another thing call tasked as well... this is just to specific a single 1
         public DbSet<Manager> Managers { get; set; }
         public DbSet<User> Users {  get; set; }
     }
