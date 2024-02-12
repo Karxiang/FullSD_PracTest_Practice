@@ -4,6 +4,7 @@ using FullSDPrac.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FullSDPrac.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240212172156_newtest")]
+    partial class newtest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -279,7 +282,6 @@ namespace FullSDPrac.Server.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("TaskName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UsersId")
@@ -290,6 +292,17 @@ namespace FullSDPrac.Server.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("TaskItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "James",
+                            CreatedDate = new DateTime(2024, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DueDate = new DateTime(2024, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCompleted = false,
+                            TaskName = "Shower"
+                        });
                 });
 
             modelBuilder.Entity("FullSDPrac.Shared.Domain.User", b =>

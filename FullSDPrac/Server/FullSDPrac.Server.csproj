@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entities\RoleSeedConfiguration.cs" />
+    <Compile Remove="Entities\TaskItemSeedConfiguration.cs" />
+    <Compile Remove="Entities\UserRoleSeedConfiguration.cs" />
+    <Compile Remove="Entities\UserSeedConfiguration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.15" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
@@ -32,6 +39,7 @@
 
   <ItemGroup>
     <Folder Include="Configurations\Entities\" />
+    <Folder Include="Entities\" />
   </ItemGroup>
 
 </Project>

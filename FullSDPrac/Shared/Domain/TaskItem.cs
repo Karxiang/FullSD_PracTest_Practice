@@ -9,7 +9,7 @@ namespace FullSDPrac.Shared.Domain
     public class TaskItem : BaseDomainModel
     {
         public int Id { get; set; }
-        public string? TaskName { get; set; }
+        public string TaskName { get; set; }
         public bool IsCompleted { get; set; }
         public DateTime DueDate { get; set; }
         public DateTime CreatedDate { get; set; }

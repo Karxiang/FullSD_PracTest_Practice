@@ -1,0 +1,73 @@
+﻿@page "/taskitem/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 > Task Items</h3>
+@if (TaskItems == null)
+{
+    <div class="alert alert-info"> Loading TaskItems...</div>
+}
+else
+{
+    <table class="table table-responsive" id="taskitemsTable">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>TaskName</th>
+            <th>IsCompleted</th>
+            <th>DueDate</th>
+            <th>CreatedDate</th>
+            <th>CreatedBy</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var taskitem in TaskItems)
+            { 
+                <tr>
+                    <td>@taskitem.Id</td>
+                    <td>@taskitem.TaskName</td>
+                    <td>@taskitem.IsCompleted</td>
+                    <td>@taskitem.DueDate</td>
+                    <td>@taskitem.CreatedDate</td>
+                    <td>@taskitem.CreatedBy</td>
+                    <td>
+                            <a href="/taskitem/view/@taskitem.Id" class="btn btn-primary">
+                                <span class="oi oi-book"></span>
+                            </a>
+
+                            <a href="/taskitem/edit/@taskitem.Id" class="btn btn-warning">
+                                <span class="oi oi-pencil"></span>
+                            </a>
+
+                            <button class="btn btn-danger" @onclick="@(()=>Delete(taskitem.Id))">
+                                <span class="oi oi-delete"></span>
+                            </button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+}
+
+@code {
+    private List<TaskItem>? TaskItems;
+    protected async override Task OnInitializedAsync()
+    {
+        TaskItems = await _client.GetFromJsonAsync<List<TaskItem>>($"{Endpoints.TaskItemsEndpoint}");
+    }
+        async Task Delete(int taskitemId)
+    {
+        if (TaskItems != null)
+        {
+            var taskitem = TaskItems.First(q => q.Id == taskitemId);
+            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {taskitem.Id}?");
+            if (confirm)
+            {
+                await _client.DeleteAsync($"{Endpoints.TaskItemsEndpoint}/{taskitemId}");
+                await OnInitializedAsync();
+            }
+        }
+    }
+}

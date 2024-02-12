@@ -1,4 +1,5 @@
 ﻿using Duende.IdentityServer.EntityFramework.Options;
+//using FullSDPrac.Server.Entities;
 using FullSDPrac.Server.Models;
 using FullSDPrac.Shared.Domain;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
@@ -17,5 +18,11 @@ namespace FullSDPrac.Server.Data
         public DbSet<Shared.Domain.TaskItem> TaskItems { get; set; } //its supposed do just be DbSet<Task> Tasks {get;set;} but there is another thing call tasked as well... this is just to specific a single 1
         public DbSet<Manager> Managers { get; set; }
         public DbSet<User> Users {  get; set; }
+        /*
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new TaskItemSeedConfiguration());
+        }*/
     }
 }

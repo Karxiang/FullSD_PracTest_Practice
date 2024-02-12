@@ -1,0 +1,72 @@
+﻿@page "/manager/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3> Task Items</h3>
+@if (Managers == null)
+{
+    <div class="alert alert-info"> Loading Managers...</div>
+}
+else
+{
+    <table class="table table-responsive" id="managersTable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>TaskId</th>
+                <th>TaskName</th>
+                <th>UserId</th>
+                <th>UserName</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var manager in Managers)
+            {
+                <tr>
+                    <td>@manager.Id</td>
+                    <td>@manager.TaskId</td>
+                    <td>@manager.Task.TaskName</td>
+                    <td>@manager.UserId</td>
+                    <td>@manager.User.Name</td>
+
+                    <td>
+                        <a href="/manager/view/@manager.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+
+                        <a href="/manager/edit/@manager.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(manager.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Manager>? Managers;
+    protected async override Task OnInitializedAsync()
+    {
+        Managers = await _client.GetFromJsonAsync<List<Manager>>($"{Endpoints.ManagersEndpoint}");
+    }
+    async Task Delete(int managerId)
+    {
+        if (Managers != null)
+        {
+            var manager = Managers.First(q => q.Id == managerId);
+            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {manager.Id}?");
+            if (confirm)
+            {
+                await _client.DeleteAsync($"{Endpoints.ManagersEndpoint}/{managerId}");
+                await OnInitializedAsync();
+            }
+        }
+    }
+}
